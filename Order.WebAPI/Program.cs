@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Orders.Entities.DatabaseContext;
 using Orders.Entities.ModelEntities;
@@ -10,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new ProducesAttribute("application/json"));
+    options.Filters.Add(new ConsumesAttribute("application/json"));
+});
 builder.Services.AddDbContext<ApplicationDbContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApiDB"))
     );
@@ -26,6 +31,15 @@ builder.Services.AddScoped<IDeleteRepository<OrderItem>, OrderItemsDeleteReposit
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.AddScoped<IOrderItemsService, OrderItemsService>();
 
+//Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.IncludeXmlComments(Path.Combine(builder.Environment.ContentRootPath, "app.xml"));
+});
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +47,9 @@ var app = builder.Build();
 app.UseHsts();
 
 app.UseHttpsRedirection();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseRouting();
 

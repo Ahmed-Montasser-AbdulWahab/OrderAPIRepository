@@ -17,7 +17,10 @@ namespace Orders.WebAPI.Controllers
             _orderItemsService = orderItemsService;
         }
 
-
+        /// <summary>
+        /// An Endpoint to get all Orders without including its items.
+        /// </summary>
+        /// <returns>List of Orders in the form of OrderResponses.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrders()
         {

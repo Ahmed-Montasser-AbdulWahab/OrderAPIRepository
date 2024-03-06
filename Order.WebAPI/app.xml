@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Orders.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:Orders.WebAPI.Controllers.OrdersController.GetOrders">
+            <summary>
+            An Endpoint to get all Orders without including its items.
+            </summary>
+            <returns>List of Orders in the form of OrderResponses.</returns>
+        </member>
+    </members>
+</doc>
